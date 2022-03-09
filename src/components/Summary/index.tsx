@@ -7,14 +7,14 @@ import { useTransactions } from '../../hooks/useTransactions';
 export default function Summary() {
   const { transactions } = useTransactions();
 
-  const totalDeposits = transactions.reduce((acc, transaction) => {
-    // Faz o calculo 
-    if (transaction.type === 'deposit') {
-      return acc + transaction.amount;
-    }
-    // Senão retorna o valor inicial que é 0
-    return acc;
-  }, 0);
+  // const totalDeposits = transactions.reduce((acc, transaction) => {
+  //   // Faz o calculo 
+  //   if (transaction.type === 'deposit') {
+  //     return acc + transaction.amount;
+  //   }
+  //   // Senão retorna o valor inicial que é 0
+  //   return acc;
+  // }, 0);
 
   const summary = transactions.reduce((acc, transaction) => {
     if (transaction.type === 'deposit') {
