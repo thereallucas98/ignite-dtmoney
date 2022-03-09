@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: grid;
@@ -9,7 +9,7 @@ export const Container = styled.div`
   div {
     background: var(--shape);
     padding: 1.5rem 2rem;
-    border-radius: 0.25rem;
+    border-radius: 0.25rem; 
     color: var(--text-title);
 
     header {
@@ -25,10 +25,11 @@ export const Container = styled.div`
       font-weight: 500;
       line-height: 3rem;
     }
-    
-    &.hightlight-background {
-      background: var(--green);
-      color: #FFF;
+
+    &.highlight-background {
+       background: var( --green);
+       color: #ffffff;
     }
   }
+
 `;

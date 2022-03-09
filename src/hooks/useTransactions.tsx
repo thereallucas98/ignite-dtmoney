@@ -1,55 +1,56 @@
-import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
-import { api } from '../services/api';
+import { createContext, ReactNode, useEffect, useState, useContext } from "react";
+import { api } from "../services/api";
 
-interface Transaction {
-  id: number;
-  title: string;
-  amount: number;
-  type: string;
-  category: string;
-  createdAt: string;
-}
+interface ITransaction {
+  id: number,
+  title: string,
+  type: string,
+  category: string,
+  amount: number,
+  createdAt: string
+};
 
-type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+// cria um tipo que utiliza a interface acima somente deixando os campos que serão utilizados
+type ITransactionInput = Omit<ITransaction, 'id' | 'createdAt'>;
 
-interface TransactionsProviderProps {
+interface ITransactionsProviderProps {
   children: ReactNode;
 }
 
-interface TransactionsContextData {
-  transactions: Transaction[];
-  createTransaction: (transaction: TransactionInput) => Promise<void>;
+interface ITransactionsContextData {
+  transactions: ITransaction[];
+  createTransaction: (transaction: ITransactionInput) => Promise<void>;
 }
 
-const TransactionsContext = createContext<TransactionsContextData>(
-  {} as TransactionsContextData);
+const TransactionsContext = createContext<ITransactionsContextData>(
+  {} as ITransactionsContextData
+);
 
-export function TransactionsProvider({ children }: TransactionsProviderProps) {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+export function TransactionsProvider({ children }: ITransactionsProviderProps) {
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+
   useEffect(() => {
-    api.get('http://localhost:3000/api/transactions')
+    api.get('transactions')
       .then(response => setTransactions(response.data.transactions))
-  }, []);
+  }, [])
 
-  async function createTransaction(transactionInput: TransactionInput) {
 
+  async function createTransaction(transactionInput: ITransactionInput) {
     const response = await api.post('/transactions', {
       ...transactionInput,
-      createAt: new Date(),
+      createdAt: new Date(),
     });
     const { transaction } = response.data;
 
+
     setTransactions([
       ...transactions,
-      transaction,
-    ]);
-  }  
+      transaction
+    ])
+  }
 
   return (
-    <TransactionsContext.Provider value={{
-      transactions,
-      createTransaction
-    }}>
+    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
       {children}
     </TransactionsContext.Provider>
   )
